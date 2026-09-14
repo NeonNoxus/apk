@@ -11,8 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
       - name: Build with Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v2
+        uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
           workdir: mark-android
