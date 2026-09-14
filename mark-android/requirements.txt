@@ -1,0 +1,6 @@
+kivy==2.3.0
+plyer
+requests
+google-generativeai
+duckduckgo-search
+pyperclip

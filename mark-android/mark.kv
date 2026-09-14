@@ -1,0 +1,105 @@
+#:kivy 2.3.0
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+
+<ChatBubble@BoxLayout>:
+    size_hint_y: None
+    height: label.texture_size[1] + dp(20)
+    is_user: False
+    text: ""
+    canvas.before:
+        Color:
+            rgba: (0.15, 0.55, 0.6, 1) if self.is_user else (0.18, 0.18, 0.2, 1)
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(14)]
+    Label:
+        id: label
+        text: root.text
+        text_size: (self.width * 0.9, None)
+        size_hint_y: None
+        height: self.texture_size[1]
+        padding: dp(12), dp(10)
+        color: 1, 1, 1, 1
+
+<RootScreen>:
+    orientation: "vertical"
+    canvas.before:
+        Color:
+            rgba: 0.06, 0.06, 0.08, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(56)
+        padding: dp(10)
+        Label:
+            text: "⚙️ MARK"
+            font_size: "20sp"
+            bold: True
+            color: get_color_from_hex(app.ui_color)
+        Button:
+            text: "🧠"
+            size_hint_x: None
+            width: dp(48)
+            on_release: root.open_memory_panel()
+        Button:
+            text: "⚙"
+            size_hint_x: None
+            width: dp(48)
+            on_release: root.open_settings_panel()
+
+    ScrollView:
+        id: scroll
+        BoxLayout:
+            id: chat_log
+            orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
+            padding: dp(10)
+            spacing: dp(8)
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(40)
+        padding: dp(8), 0
+        spacing: dp(6)
+        Button:
+            text: "🌐 Übersetzen"
+            font_size: "12sp"
+            on_release: root.process_clipboard("translate")
+        Button:
+            text: "📝 Zusammenfassen"
+            font_size: "12sp"
+            on_release: root.process_clipboard("summarize")
+        Button:
+            text: "💡 Erklären"
+            font_size: "12sp"
+            on_release: root.process_clipboard("explain")
+        Button:
+            text: "✅ Fixen"
+            font_size: "12sp"
+            on_release: root.process_clipboard("fix")
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(64)
+        padding: dp(8)
+        spacing: dp(8)
+        TextInput:
+            id: text_input
+            hint_text: "Nachricht an Mark..."
+            multiline: False
+            on_text_validate: root.send_text()
+        Button:
+            text: "🎙️"
+            size_hint_x: None
+            width: dp(56)
+            on_release: root.toggle_listen()
+        Button:
+            text: "➤"
+            size_hint_x: None
+            width: dp(56)
+            on_release: root.send_text()
