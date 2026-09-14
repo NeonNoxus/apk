@@ -27,10 +27,11 @@ jobs:
         run: pip install --upgrade buildozer cython==0.29.36
 
       - name: Build APK (debug)
+        working-directory: mark-android
         run: buildozer -v android debug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: mark-assistant-apk
-          path: bin/*.apk
+          path: mark-android/bin/*.apk
